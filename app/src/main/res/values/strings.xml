@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Speed Test</string>
+    <string name="check_internet">Please check your intenet connection</string>
+    <string name="add_dl_ul"><![CDATA[Add DL & UL]]></string>
+</resources>
