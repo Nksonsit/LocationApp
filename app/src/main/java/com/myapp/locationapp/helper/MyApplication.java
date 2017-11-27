@@ -42,7 +42,7 @@ public class MyApplication extends Application {
         mInstance = this;
         initGson();
         //hashKey();
-//        initRetrofit();
+        initRetrofit();
 
     }
 

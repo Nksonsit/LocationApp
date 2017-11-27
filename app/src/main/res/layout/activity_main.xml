@@ -56,14 +56,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/imgNewsHeadline"
                 android:text="News Headline"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 app:ftype="bold" />
 
             <ImageView
+                android:id="@+id/imgNewsHeadline"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_centerVertical="true"
@@ -89,13 +90,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/imgDlUl"
                 android:text="@string/add_dl_ul"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 app:ftype="bold" />
 
             <ImageView
+                android:id="@+id/imgDlUl"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_centerVertical="true"
@@ -122,13 +125,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="Ranking"
+                android:layout_toRightOf="@+id/imgRanking"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 app:ftype="bold" />
 
             <ImageView
+                android:id="@+id/imgRanking"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_centerVertical="true"

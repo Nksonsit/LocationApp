@@ -54,18 +54,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgNews;
         private TfTextView txtNews;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtNews = (TfTextView) itemView.findViewById(R.id.txtNews);
-            imgNews = (ImageView) itemView.findViewById(R.id.imgNews);
         }
 
         public void setValues(News news) {
             txtNews.setText(news.getNews());
-            Glide.with(context).load(news.getNewsImgUrl()).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(imgNews);
         }
     }
 }

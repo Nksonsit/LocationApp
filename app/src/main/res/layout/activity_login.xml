@@ -37,6 +37,7 @@
                 android:ellipsize="end"
                 android:inputType="textEmailAddress"
                 android:lines="1"
+                android:hint="Email ID"
                 android:padding="8dp"
                 android:maxLength="25"
                 android:maxLines="1" />
@@ -54,6 +55,7 @@
                 android:ellipsize="end"
                 android:inputType="textPassword"
                 android:lines="1"
+                android:hint="Password"
                 android:padding="8dp"
                 android:maxLength="16"
                 android:maxLines="1" />

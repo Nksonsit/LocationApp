@@ -5,16 +5,16 @@ package com.myapp.locationapp.model;
  */
 
 public class News {
-    private int NewsId;
+    private int Id;
     private String News;
-    private String NewsImgUrl;
+    private String UserId;
 
-    public int getNewsId() {
-        return NewsId;
+    public int getId() {
+        return Id;
     }
 
-    public void setNewsId(int newsId) {
-        NewsId = newsId;
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getNews() {
@@ -25,11 +25,11 @@ public class News {
         News = news;
     }
 
-    public String getNewsImgUrl() {
-        return NewsImgUrl;
+    public String getUserId() {
+        return UserId;
     }
 
-    public void setNewsImgUrl(String newsImgUrl) {
-        NewsImgUrl = newsImgUrl;
+    public void setUserId(String userId) {
+        UserId = userId;
     }
 }
