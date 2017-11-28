@@ -39,6 +39,8 @@ import com.droidbyme.toastlib.ToastLib;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.myapp.locationapp.R;
+import com.myapp.locationapp.model.User;
+import com.myapp.locationapp.ui.LoginActivity;
 
 import java.io.File;
 import java.text.ParseException;
@@ -299,14 +301,12 @@ public class Functions {
     }
 
     public static void logout(Context context) {
-        /*PrefUtils.setLoggedIn(context, false);
-        PrefUtils.setUserSkip(context, false);
+        PrefUtils.setLoggedIn(context, false);
         PrefUtils.setUserFullProfileDetails(context, new User());
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-        ((Activity) context).finish();*/
-
+        ((Activity) context).finish();
     }
 
     public static String getNotNullableString(String input) {

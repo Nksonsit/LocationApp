@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout btnNewsHeadline;
     private RelativeLayout btnLink;
     private RelativeLayout btnRanking;
+    private ImageView imgLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        imgLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Functions.logout(MainActivity.this);
+            }
+        });
     }
 
     private void init() {
@@ -61,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         btnNewsHeadline = (RelativeLayout) findViewById(R.id.btnNewsHeadline);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtTitle = (TfTextView) findViewById(R.id.txtTitle);
+        imgLogout= (ImageView) findViewById(R.id.imgLogout);
         txtTitle.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"fonts/speed2.ttf"));
 
         initToolbar();

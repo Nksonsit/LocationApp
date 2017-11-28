@@ -7,8 +7,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
+
+import com.facebook.stetho.Stetho;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.myapp.locationapp.dbhelper.DBOpenHelper;
+import com.myapp.locationapp.dbhelper.DatabaseManager;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +48,8 @@ public class MyApplication extends Application {
         initGson();
         //hashKey();
         initRetrofit();
+        initDataBase();
+        initStetho();
 
     }
 
@@ -84,6 +91,20 @@ public class MyApplication extends Application {
 
     public static synchronized MyApplication getInstance() {
         return mInstance;
+    }
+
+
+    private void initDataBase() {
+        DatabaseManager.initialize(DBOpenHelper.getInstance((this)));
+        DBOpenHelper.getInstance((this)).createDataBase(this);
+
+    }
+
+    private void initStetho() {
+
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build());
     }
 }
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.myapp.locationapp.R;
 import com.myapp.locationapp.api.AppApi;
 import com.myapp.locationapp.custom.TfButton;
@@ -18,6 +19,7 @@ import com.myapp.locationapp.helper.MyApplication;
 import com.myapp.locationapp.helper.PrefUtils;
 import com.myapp.locationapp.helper.ProgressBarHelper;
 import com.myapp.locationapp.model.BaseResponse;
+import com.myapp.locationapp.model.FCM;
 import com.myapp.locationapp.model.User;
 
 import retrofit2.Call;
@@ -107,6 +109,27 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    private void addFcm() {
+        AppApi api = MyApplication.getRetrofit().create(AppApi.class);
+        FCM fcm = new FCM();
+        fcm.setUserId(PrefUtils.getUserID(this));
+        if (PrefUtils.getFCMToken(this) == null || PrefUtils.getFCMToken(this).trim().length() == 0) {
+            PrefUtils.setFCMToken(this, FirebaseInstanceId.getInstance().getToken());
+        }
+        fcm.setToken(PrefUtils.getFCMToken(this));
+        Log.e("add fcm", MyApplication.getGson().toJson(fcm));
+        api.addFcm(fcm).enqueue(new Callback<BaseResponse<FCM>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<FCM>> call, Response<BaseResponse<FCM>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<FCM>> call, Throwable t) {
+
+            }
+        });
+    }
     private void callApi() {
         User user = new User();
         user.setFirstName(edtFirstName.getText().toString().trim());
@@ -128,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                         PrefUtils.setUserFullProfileDetails(RegisterActivity.this, response.body().getData().get(0));
                         Functions.fireIntent(RegisterActivity.this, MainActivity.class, true);
                         Functions.showToast(RegisterActivity.this,"Successfully Register");
+                        addFcm();
                         finish();
                     } else {
                         Functions.showToast(RegisterActivity.this, "Email Id already exist");

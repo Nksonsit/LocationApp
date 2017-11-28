@@ -2,6 +2,7 @@ package com.myapp.locationapp.api;
 
 import com.myapp.locationapp.model.BaseResponse;
 import com.myapp.locationapp.model.DlUl;
+import com.myapp.locationapp.model.FCM;
 import com.myapp.locationapp.model.News;
 import com.myapp.locationapp.model.User;
 
@@ -30,4 +31,7 @@ public interface AppApi {
 
     @POST("AddDlUl.php")
     Call<BaseResponse<DlUl>> addDlUl(@Body DlUl dlUl);
+
+    @POST("AddFcm.php")
+    Call<BaseResponse<FCM>> addFcm(@Body FCM fcm);
 }
