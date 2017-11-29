@@ -1,11 +1,11 @@
 package com.myapp.locationapp.dbhelper;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.myapp.locationapp.helper.MyApplication;
 import com.myapp.locationapp.model.Site;
 
 import java.io.File;
@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by raghavthakkar on 10-10-2016.
@@ -52,6 +54,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void createDataBase(Context context) {
 
         boolean dbExist = checkDataBase();
+        Log.e("dbExist", dbExist + "");
         if (dbExist) {
         } else {
             this.getReadableDatabase();
@@ -75,6 +78,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
         while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
+            Log.e("coping", "db");
         }
 
         myOutput.flush();
@@ -93,17 +97,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
 
     public static void addSite(Site site) {
-//        getInstance(context).op
-        Log.e("Add site db", MyApplication.getGson().toJson(site) +"    " + "INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
-                "VALUES(" +
-                "" + site.getUserId() + "," +
-                "'" + site.getSite() + "'," +
-                "'" + site.getDescription() + "'," +
-                "'" + site.getDistance() + "'," +
-                "'" + site.getLatitude() + "'," +
-                "'" + site.getLongitude() + "'," +
-                "'" + site.getTimestamp() + "'" +
-                ")");
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
                 "VALUES(" +
@@ -116,5 +109,28 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "'" + site.getTimestamp() + "'" +
                 ")");
         DatabaseManager.getInstance().closeDatabase();
+    }
+
+    public static List<Site> getSites() {
+        List<Site> list=new ArrayList<>();
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Site", null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            do {
+                Site site=new Site();
+                site.setId(cursor.getInt(0)+"");
+                site.setUserId(cursor.getString(1));
+                site.setSite(cursor.getString(2));
+                site.setDescription(cursor.getString(3));
+                site.setDistance(cursor.getString(4));
+                site.setLatitude(cursor.getString(5));
+                site.setLongitude(cursor.getString(6));
+                site.setTimestamp(cursor.getString(7));
+                list.add(site);
+            } while (cursor.moveToNext());
+        }
+        DatabaseManager.getInstance().closeDatabase();
+        return list;
     }
 }

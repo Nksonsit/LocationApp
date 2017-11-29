@@ -33,8 +33,10 @@ import com.myapp.locationapp.helper.PrefUtils;
 import com.myapp.locationapp.helper.ProgressBarHelper;
 import com.myapp.locationapp.model.BaseResponse;
 import com.myapp.locationapp.model.DlUl;
+import com.myapp.locationapp.model.Site;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +54,7 @@ public class AddDlUlActivity extends AppCompatActivity {
     private double latitude = 0;
     private double longitude = 0;
     private ProgressBarHelper progressBar;
+    private Site site;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,8 @@ public class AddDlUlActivity extends AppCompatActivity {
                 dlUl.setLatitude(latitude + "");
                 dlUl.setLongitude(longitude + "");
                 dlUl.setUserId(PrefUtils.getUserID(AddDlUlActivity.this));
+                dlUl.setSiteId(site.getId());
+                dlUl.setTimestamp(Functions.getTimestamp());
 
                 addDlUl(dlUl);
 
@@ -128,6 +133,7 @@ public class AddDlUlActivity extends AppCompatActivity {
                     edtDL.setText("");
                     edtUL.setText("");
                     Functions.showToast(AddDlUlActivity.this, "Successfully Uploaded");
+                    onBackPressed();
                 } else {
                     Functions.showToast(AddDlUlActivity.this, getString(R.string.try_again));
                 }
@@ -142,6 +148,7 @@ public class AddDlUlActivity extends AppCompatActivity {
     }
 
     private void init() {
+        site= (Site)getIntent().getSerializableExtra("site");
         progressBar = new ProgressBarHelper(this, false);
         btnSubmit = (TfButton) findViewById(R.id.btnSubmit);
         edtUL = (TfEditText) findViewById(R.id.edtUL);

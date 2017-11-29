@@ -10,12 +10,20 @@ import android.view.View;
 
 import com.myapp.locationapp.R;
 import com.myapp.locationapp.adapter.RankingAdapter;
+import com.myapp.locationapp.api.AppApi;
 import com.myapp.locationapp.custom.TfTextView;
 import com.myapp.locationapp.helper.Functions;
-import com.myapp.locationapp.model.Ranking;
+import com.myapp.locationapp.helper.MyApplication;
+import com.myapp.locationapp.helper.ProgressBarHelper;
+import com.myapp.locationapp.model.BaseResponse;
+import com.myapp.locationapp.model.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RankingActivity extends AppCompatActivity {
 
@@ -24,7 +32,8 @@ public class RankingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TfTextView txtAlert;
     private RankingAdapter adapter;
-    private List<Ranking> list;
+    private List<Point> list;
+    private ProgressBarHelper progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,48 +55,11 @@ public class RankingActivity extends AppCompatActivity {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.set(15, 15, 15, 15);
+                outRect.set(20,20,20,20);
             }
         });
         list = new ArrayList<>();
 
-
-        Ranking ranking1 = new Ranking();
-        ranking1.setName("Phoebe");
-        ranking1.setRank(4);
-        ranking1.setUserImage("https://lgbtfansdeservebetter.com/static/uploads/2016/09/Phoebe-Buffay-Lisa-Kudrow.png");
-
-        Ranking ranking2 = new Ranking();
-        ranking2.setName("Rachel");
-        ranking2.setRank(3);
-        ranking2.setUserImage("https://i.pinimg.com/originals/b3/7d/bf/b37dbfbbbaa71221d21bca303b20fe51.jpg");
-
-        Ranking ranking3 = new Ranking();
-        ranking3.setName("Ross");
-        ranking3.setRank(5);
-        ranking3.setUserImage("https://upload.wikimedia.org/wikipedia/en/6/6f/David_Schwimmer_as_Ross_Geller.jpg");
-
-        Ranking ranking4 = new Ranking();
-        ranking4.setName("Monica");
-        ranking4.setRank(2);
-        ranking4.setUserImage("https://vignette.wikia.nocookie.net/friends/images/7/75/Monica.jpg/revision/latest?cb=20130802071219");
-
-        Ranking ranking5 = new Ranking();
-        ranking5.setName("Chandler");
-        ranking5.setRank(1);
-        ranking5.setUserImage("https://vignette.wikia.nocookie.net/friends/images/c/cc/Square_Chandler.jpg/revision/latest?cb=20111216200026");
-
-        Ranking ranking6 = new Ranking();
-        ranking6.setName("Joey");
-        ranking6.setRank(6);
-        ranking6.setUserImage("https://upload.wikimedia.org/wikipedia/en/d/da/Matt_LeBlanc_as_Joey_Tribbiani.jpg");
-
-        list.add(ranking1);
-        list.add(ranking2);
-        list.add(ranking3);
-        list.add(ranking4);
-        list.add(ranking5);
-        list.add(ranking6);
         adapter = new RankingAdapter(this, list);
         recyclerView.setAdapter(adapter);
 
@@ -98,6 +70,35 @@ public class RankingActivity extends AppCompatActivity {
             recyclerView.setVisibility(View.GONE);
             txtAlert.setVisibility(View.VISIBLE);
         }
+        progressBar=new ProgressBarHelper(this,false);
+        callApi();
+    }
+
+    private void callApi() {
+        progressBar.showProgressDialog();
+        AppApi api= MyApplication.getRetrofit().create(AppApi.class);
+        api.getPoint().enqueue(new Callback<BaseResponse<Point>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<Point>> call, Response<BaseResponse<Point>> response) {
+                progressBar.hideProgressDialog();
+                if(response.body()!=null&&response.body().getStatus()==1&&response.body().getData()!=null&&response.body().getData().size()>0){
+                    list=response.body().getData();
+                    adapter.setDataList(list);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    txtAlert.setVisibility(View.GONE);
+                }else{
+                    recyclerView.setVisibility(View.GONE);
+                    txtAlert.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<Point>> call, Throwable t) {
+                progressBar.hideProgressDialog();
+                recyclerView.setVisibility(View.GONE);
+                txtAlert.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initToolbar() {
@@ -117,5 +118,11 @@ public class RankingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Functions.fireIntent(RankingActivity.this, false);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callApi();
     }
 }

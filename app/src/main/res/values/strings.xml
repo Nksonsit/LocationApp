@@ -3,6 +3,8 @@
     <string name="check_internet">Please check your intenet connection</string>
     <string name="add_dl_ul"><![CDATA[Add DL & UL]]></string>
     <string name="try_again">Something went wrong please try again later.</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
 
 
     <string name="GPSAlertDialogTitle">GPS is setting</string>

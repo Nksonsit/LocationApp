@@ -7,11 +7,20 @@ package com.myapp.locationapp.model;
 public class DlUl {
     private int id;
     private String UserId;
+    private String SiteId;
     private String Dl;
     private String Ul;
     private String Latitude;
     private String Longitude;
     private String Timestamp;
+
+    public String getSiteId() {
+        return SiteId;
+    }
+
+    public void setSiteId(String siteId) {
+        SiteId = siteId;
+    }
 
     public int getId() {
         return id;

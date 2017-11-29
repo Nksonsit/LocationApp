@@ -4,6 +4,8 @@ import com.myapp.locationapp.model.BaseResponse;
 import com.myapp.locationapp.model.DlUl;
 import com.myapp.locationapp.model.FCM;
 import com.myapp.locationapp.model.News;
+import com.myapp.locationapp.model.Point;
+import com.myapp.locationapp.model.Site;
 import com.myapp.locationapp.model.User;
 
 import retrofit2.Call;
@@ -34,4 +36,13 @@ public interface AppApi {
 
     @POST("AddFcm.php")
     Call<BaseResponse<FCM>> addFcm(@Body FCM fcm);
+
+    @POST("AddPoint.php")
+    Call<BaseResponse<Point>> addPoint(@Body Point point);
+
+    @GET("GetPoints.php")
+    Call<BaseResponse<Point>> getPoint();
+
+    @GET("GetSites.php")
+    Call<BaseResponse<Site>> getSites();
 }

@@ -10,4 +10,5 @@ public class AppConstants {
     public static final String NOTIFICATION_CALL = "Call";
     public static final String NOTIFICATION_CLICK = "Notification";
 
+    public static final String LOCATION_CHANGE = "LOCATION_CHANGE";
 }

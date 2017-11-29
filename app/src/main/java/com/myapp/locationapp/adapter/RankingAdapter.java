@@ -11,8 +11,9 @@ import com.bumptech.glide.Glide;
 import com.myapp.locationapp.R;
 import com.myapp.locationapp.custom.TfTextView;
 import com.myapp.locationapp.model.News;
-import com.myapp.locationapp.model.Ranking;
+import com.myapp.locationapp.model.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -23,10 +24,10 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class RankingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Ranking> list;
+    private List<Point> list;
     private Context context;
 
-    public RankingAdapter(Context context, List<Ranking> list) {
+    public RankingAdapter(Context context, List<Point> list) {
         this.context = context;
         this.list = list;
     }
@@ -48,22 +49,25 @@ public class RankingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return list.size();
     }
 
+    public void setDataList(List<Point> list) {
+        this.list=new ArrayList<>();
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView img;
         private TfTextView txtName,txtRank;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtName = (TfTextView) itemView.findViewById(R.id.txtName);
             txtRank= (TfTextView) itemView.findViewById(R.id.txtRank);
-            img = (ImageView) itemView.findViewById(R.id.img);
         }
 
-        public void setValues(Ranking ranking) {
-            Glide.with(context).load(ranking.getUserImage()).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(img);
-            txtName.setText(ranking.getName());
-            txtRank.setText(ranking.getRank()+"");
+        public void setValues(Point point) {
+            txtName.setText(point.getFirstName()+" "+point.getLastName());
+            txtRank.setText(point.getPoint());
 
         }
     }

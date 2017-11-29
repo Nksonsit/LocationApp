@@ -41,14 +41,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData().size() > 0) {
             try {
-                JSONObject json = new JSONObject(remoteMessage.getData());
-                Log.e(TAG, "messageJson1: " + json.toString());
-
-                JSONArray jsonArray = json.getJSONArray("message");
-                JSONObject msgData = jsonArray.getJSONObject(0);
-                Log.e(TAG, "messageJson: " + msgData.get("Site"));
+                JSONObject json = new JSONObject(Functions.jsonString(remoteMessage.getData()));
+                Log.e(TAG, "messageJson: " + Functions.jsonString(remoteMessage.getData()));
                 if (PrefUtils.isUserLoggedIn(this)) {
-                    sendNotification(msgData);
+                    sendNotification(json);
                 }
                 /*JSONObject messageJson = json.getJSONObject("message");
                 Log.e(TAG, "messageJson: " + messageJson.get("Site"));
@@ -64,19 +60,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(JSONObject msgObject) {
-        Log.e("dfs",msgObject.toString());
-        Site site = new Site();
+       Site site = new Site();
         try {
             site.setId("" + msgObject.get("Id"));
             site.setUserId("" + msgObject.get("UserId"));
-            site.setUserId("" + msgObject.get("Site"));
-            site.setUserId("" + msgObject.get("Description"));
-            site.setUserId("" + msgObject.get("Distance"));
-            site.setUserId("" + msgObject.get("Latitude"));
-            site.setUserId("" + msgObject.get("Longitude"));
-            site.setUserId("" + msgObject.get("Timestamp"));
+            site.setSite("" + msgObject.get("Site"));
+            site.setDescription("" + msgObject.get("Description"));
+            site.setDistance("" + msgObject.get("Distance"));
+            site.setLatitude("" + msgObject.get("Latitude"));
+            site.setLongitude("" + msgObject.get("Longitude"));
+            site.setTimestamp("" + msgObject.get("Timestamp"));
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("error",e.toString());
         }
 
         DBOpenHelper.addSite(site);
