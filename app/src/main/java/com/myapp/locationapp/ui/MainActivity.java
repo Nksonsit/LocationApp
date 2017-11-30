@@ -122,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Functions.hideKeyPad(MainActivity.this, view);
+
+                if (!Functions.isConnected(MainActivity.this)) {
+                    Functions.showToast(MainActivity.this, getString(R.string.check_internet));
+                    return;
+                }
                 Functions.fireIntent(MainActivity.this, NewsActivity.class, true);
             }
         });
@@ -129,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Functions.hideKeyPad(MainActivity.this, view);
+
+                if (!Functions.isConnected(MainActivity.this)) {
+                    Functions.showToast(MainActivity.this, getString(R.string.check_internet));
+                    return;
+                }
                 Functions.fireIntent(MainActivity.this, SiteActivity.class, true);
 
             }
@@ -137,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Functions.hideKeyPad(MainActivity.this, view);
+                if (!Functions.isConnected(MainActivity.this)) {
+                    Functions.showToast(MainActivity.this, getString(R.string.check_internet));
+                    return;
+                }
                 Functions.fireIntent(MainActivity.this, RankingActivity.class, true);
 
             }

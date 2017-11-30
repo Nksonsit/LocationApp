@@ -37,6 +37,7 @@ public class PopupActivity extends AppCompatActivity {
     private ProgressBarHelper progressBar;
     private double latitude = 0;
     private double longitude = 0;
+    private boolean isAccept = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,13 @@ public class PopupActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isAccept)
+            onBackPressed();
+    }
+
     private void actionListener() {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +114,7 @@ public class PopupActivity extends AppCompatActivity {
                     public void onResponse(Call<BaseResponse<Point>> call, Response<BaseResponse<Point>> response) {
                         progressBar.hideProgressDialog();
                         if (response.body() != null && response.body().getStatus() == 1) {
+                            isAccept = true;
                             Functions.openInMap(PopupActivity.this, latitude, longitude, Double.parseDouble(site.getLatitude()), Double.parseDouble(site.getLongitude()), site.getSite());
                             finish();
                         } else {

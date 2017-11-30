@@ -52,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Functions.hideKeyPad(RegisterActivity.this, view);
+
+                if (!Functions.isConnected(RegisterActivity.this)) {
+                    Functions.showToast(RegisterActivity.this, getString(R.string.check_internet));
+                }
                 if (!Functions.isConnected(RegisterActivity.this)) {
                     Functions.showToast(RegisterActivity.this, getString(R.string.check_internet));
                     return;
@@ -136,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.setLastName(edtLastName.getText().toString().trim());
         user.setEmailId(edtEmailId.getText().toString().trim());
         user.setPassword(edtPassword.getText().toString().trim());
-        user.setType(1);
+        user.setType(2);
         progressBar.showProgressDialog();
         Log.e("register req", MyApplication.getGson().toJson(user));
         AppApi api = MyApplication.getRetrofit().create(AppApi.class);

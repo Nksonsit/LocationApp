@@ -98,28 +98,51 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     public static void addSite(Site site) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
-                "VALUES(" +
-                "" + site.getUserId() + "," +
-                "'" + site.getSite() + "'," +
-                "'" + site.getDescription() + "'," +
-                "'" + site.getDistance() + "'," +
-                "'" + site.getLatitude() + "'," +
-                "'" + site.getLongitude() + "'," +
-                "'" + site.getTimestamp() + "'" +
-                ")");
+
+
+        if (site.getId() != null && Integer.parseInt(site.getId()) > 0) {
+            Cursor cursor = db.rawQuery("SELECT * FROM Site WHERE id = " + site.getId(), null);
+
+            if (cursor!=null&&cursor.getCount() > 0) {
+                db.execSQL("UPDATE Site SET UserId ='" + site.getUserId() + "', Site = '" + site.getSite() + "', Description = '" + site.getDescription() + "', Distance = '" + site.getDistance() + "', Latitude = '" + site.getLatitude() + "', Longitude = '" + site.getLongitude() + "', Timestamp = '" + site.getTimestamp() + "' WHERE id = " + site.getId());
+            } else {
+                db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
+                        "VALUES(" +
+                        "'" + site.getUserId() + "'," +
+                        "'" + site.getSite() + "'," +
+                        "'" + site.getDescription() + "'," +
+                        "'" + site.getDistance() + "'," +
+                        "'" + site.getLatitude() + "'," +
+                        "'" + site.getLongitude() + "'," +
+                        "'" + site.getTimestamp() + "'" +
+                        ")");
+            }
+
+        } else {
+
+            db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
+                    "VALUES(" +
+                    "" + site.getUserId() + "," +
+                    "'" + site.getSite() + "'," +
+                    "'" + site.getDescription() + "'," +
+                    "'" + site.getDistance() + "'," +
+                    "'" + site.getLatitude() + "'," +
+                    "'" + site.getLongitude() + "'," +
+                    "'" + site.getTimestamp() + "'" +
+                    ")");
+        }
         DatabaseManager.getInstance().closeDatabase();
     }
 
     public static List<Site> getSites() {
-        List<Site> list=new ArrayList<>();
+        List<Site> list = new ArrayList<>();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM Site", null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             do {
-                Site site=new Site();
-                site.setId(cursor.getInt(0)+"");
+                Site site = new Site();
+                site.setId(cursor.getInt(0) + "");
                 site.setUserId(cursor.getString(1));
                 site.setSite(cursor.getString(2));
                 site.setDescription(cursor.getString(3));

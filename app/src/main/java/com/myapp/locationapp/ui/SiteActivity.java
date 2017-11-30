@@ -13,6 +13,8 @@ import com.myapp.locationapp.adapter.SiteAdapter;
 import com.myapp.locationapp.api.AppApi;
 import com.myapp.locationapp.custom.TfButton;
 import com.myapp.locationapp.custom.TfTextView;
+import com.myapp.locationapp.dbhelper.DBOpenHelper;
+import com.myapp.locationapp.helper.Functions;
 import com.myapp.locationapp.helper.MyApplication;
 import com.myapp.locationapp.helper.ProgressBarHelper;
 import com.myapp.locationapp.model.BaseResponse;
@@ -87,6 +89,9 @@ public class SiteActivity extends AppCompatActivity {
                         recyclerView.setVisibility(View.VISIBLE);
                         txtAlert.setVisibility(View.GONE);
                         list = response.body().getData();
+                        for(int i=0;i<list.size();i++){
+                            DBOpenHelper.addSite(list.get(i));
+                        }
                         adapter.setDataList(list);
                     } else {
                         recyclerView.setVisibility(View.GONE);
@@ -113,6 +118,19 @@ public class SiteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("");
         toolbar.setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Functions.fireIntent(this,false);
     }
 }
 

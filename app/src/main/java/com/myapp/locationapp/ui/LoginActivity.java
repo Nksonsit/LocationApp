@@ -50,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Functions.hideKeyPad(LoginActivity.this, view);
+
+                if (!Functions.isConnected(LoginActivity.this)) {
+                    Functions.showToast(LoginActivity.this, getString(R.string.check_internet));
+                }
                 if (!Functions.isConnected(LoginActivity.this)) {
                     Functions.showToast(LoginActivity.this, getString(R.string.check_internet));
                     return;
@@ -88,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         User user = new User();
         user.setPassword(edtPassword.getText().toString().trim());
         user.setEmailId(edtEmailId.getText().toString().trim());
-        user.setType(1);
+        user.setType(2);
         progressBar.showProgressDialog();
         AppApi api = MyApplication.getRetrofit().create(AppApi.class);
         Log.e("login req", MyApplication.getGson().toJson(user));

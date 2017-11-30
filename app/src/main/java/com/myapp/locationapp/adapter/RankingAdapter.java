@@ -57,17 +57,20 @@ public class RankingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
+        private TfTextView txtNum;
         private TfTextView txtName,txtRank;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            txtNum = (TfTextView) itemView.findViewById(R.id.txtNum);
             txtName = (TfTextView) itemView.findViewById(R.id.txtName);
             txtRank= (TfTextView) itemView.findViewById(R.id.txtRank);
         }
 
         public void setValues(Point point) {
             txtName.setText(point.getFirstName()+" "+point.getLastName());
-            txtRank.setText(point.getPoint());
+            txtRank.setText("Points : " +point.getPoint());
+            txtNum.setText((getAdapterPosition()+1)+"");
 
         }
     }
