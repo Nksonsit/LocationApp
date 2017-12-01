@@ -27,7 +27,6 @@
             android:id="@+id/txtSite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Web site"
             app:ftype="regular" />
 
         <Space
@@ -39,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:text="Description"
+            android:visibility="gone"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             app:ftype="bold" />
@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"
+            android:visibility="gone"
             app:ftype="regular" />
 
         <Space
@@ -68,12 +69,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="Distance"
+                    android:visibility="gone"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
                     app:ftype="bold" />
 
                 <com.myapp.locationapp.custom.TfTextView
                     android:id="@+id/txtDistance"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Distance"

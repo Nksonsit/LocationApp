@@ -70,6 +70,7 @@ public class PopupActivity extends AppCompatActivity {
                     Point point = new Point();
                     point.setPoint("-5");
                     point.setUserId(PrefUtils.getUserID(PopupActivity.this));
+                    point.setTimestamp(Functions.getTimestamp());
                     Log.e("add point", MyApplication.getGson().toJson(point));
                     api.addPoint(point).enqueue(new Callback<BaseResponse<Point>>() {
                         @Override
@@ -107,8 +108,9 @@ public class PopupActivity extends AppCompatActivity {
                 progressBar.showProgressDialog();
                 AppApi api = MyApplication.getRetrofit().create(AppApi.class);
                 Point point = new Point();
-                point.setPoint("5");
+                point.setPoint("10");
                 point.setUserId(PrefUtils.getUserID(PopupActivity.this));
+                point.setTimestamp(Functions.getTimestamp());
                 api.addPoint(point).enqueue(new Callback<BaseResponse<Point>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Point>> call, Response<BaseResponse<Point>> response) {

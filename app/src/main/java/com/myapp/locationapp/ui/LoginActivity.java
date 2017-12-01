@@ -160,9 +160,9 @@ public class LoginActivity extends AppCompatActivity {
         edtEmailId = (TfEditText) findViewById(R.id.edtEmailId);
         txtTitle = (TfTextView) findViewById(R.id.txtTitle);
 
-        AdvancedSpannableString span = new AdvancedSpannableString("Welcome To Speed Test");
-        span.setBold("Speed Test");
-        span.setColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary), "Speed Test");
+        AdvancedSpannableString span = new AdvancedSpannableString("Welcome To Speed Catch");
+        span.setBold("Speed Catch");
+        span.setColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary), "Speed Catch");
         txtTitle.setText(span);
 
 

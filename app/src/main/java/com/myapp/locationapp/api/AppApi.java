@@ -5,6 +5,7 @@ import com.myapp.locationapp.model.DlUl;
 import com.myapp.locationapp.model.FCM;
 import com.myapp.locationapp.model.News;
 import com.myapp.locationapp.model.Point;
+import com.myapp.locationapp.model.PointReq;
 import com.myapp.locationapp.model.Site;
 import com.myapp.locationapp.model.User;
 
@@ -40,8 +41,8 @@ public interface AppApi {
     @POST("AddPoint.php")
     Call<BaseResponse<Point>> addPoint(@Body Point point);
 
-    @GET("GetPoints.php")
-    Call<BaseResponse<Point>> getPoint();
+    @POST("GetPoints.php")
+    Call<BaseResponse<Point>> getPoint(@Body PointReq pointReq);
 
     @GET("GetSites.php")
     Call<BaseResponse<Site>> getSites();

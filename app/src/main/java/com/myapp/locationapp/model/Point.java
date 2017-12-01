@@ -10,6 +10,15 @@ public class Point {
     private String Point;
     private String FirstName;
     private String LastName;
+    private String Timestamp;
+
+    public String getTimestamp() {
+        return Timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        Timestamp = timestamp;
+    }
 
     public String getFirstName() {
         return FirstName;
