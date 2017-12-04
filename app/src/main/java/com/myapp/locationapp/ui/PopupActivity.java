@@ -123,8 +123,9 @@ public class PopupActivity extends AppCompatActivity {
                         if (response.body() != null && response.body().getStatus() == 1) {
                             isAccept = true;
                             DBOpenHelper.updateSite(site);
-                            Functions.openInMap(PopupActivity.this, latitude, longitude, Double.parseDouble(site.getLatitude()), Double.parseDouble(site.getLongitude()), site.getSite());
                             finish();
+                            Functions.openInMap(PopupActivity.this, latitude, longitude, Double.parseDouble(site.getLatitude()), Double.parseDouble(site.getLongitude()), site.getSite());
+
                         } else {
                             Functions.showToast(PopupActivity.this, getString(R.string.try_again));
                         }

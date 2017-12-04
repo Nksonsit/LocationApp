@@ -70,6 +70,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             site.setLatitude("" + msgObject.get("Latitude"));
             site.setLongitude("" + msgObject.get("Longitude"));
             site.setTimestamp("" + msgObject.get("Timestamp"));
+            site.setStatus("0" );
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("error",e.toString());

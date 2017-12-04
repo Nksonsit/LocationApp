@@ -112,10 +112,10 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         if (site.getId() != null && Integer.parseInt(site.getId()) > 0) {
             Cursor cursor = db.rawQuery("SELECT * FROM Site WHERE id = " + site.getId(), null);
 
-            if (cursor!=null&&cursor.getCount() > 0) {
-                db.execSQL("UPDATE Site SET UserId ='" + site.getUserId() + "', Site = '" + site.getSite() + "', Description = '" + site.getDescription() + "', Distance = '" + site.getDistance() + "', Latitude = '" + site.getLatitude() + "', Longitude = '" + site.getLongitude() + "', Timestamp = '" + site.getTimestamp() + "' WHERE id = " + site.getId());
+            if (cursor!=null && cursor.getCount() > 0) {
+                db.execSQL("UPDATE Site SET UserId ='" + site.getUserId() + "', Site = '" + site.getSite() + "', Description = '" + site.getDescription() + "', Distance = '" + site.getDistance() + "', Latitude = '" + site.getLatitude() + "', Longitude = '" + site.getLongitude() + "', Timestamp = '" + site.getTimestamp() + "', Status = '" + site.getStatus() + "' WHERE id = " + site.getId());
             } else {
-                db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
+                db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp,Status) " +
                         "VALUES(" +
                         "'" + site.getUserId() + "'," +
                         "'" + site.getSite() + "'," +
@@ -123,13 +123,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                         "'" + site.getDistance() + "'," +
                         "'" + site.getLatitude() + "'," +
                         "'" + site.getLongitude() + "'," +
-                        "'" + site.getTimestamp() + "'" +
+                        "'" + site.getTimestamp() + "'," +
+                        "'" + site.getStatus() + "'" +
                         ")");
             }
 
         } else {
 
-            db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp) " +
+            db.execSQL("INSERT INTO Site(UserId,Site,Description,Distance,Latitude,Longitude,Timestamp,Status) " +
                     "VALUES(" +
                     "" + site.getUserId() + "," +
                     "'" + site.getSite() + "'," +
@@ -137,7 +138,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     "'" + site.getDistance() + "'," +
                     "'" + site.getLatitude() + "'," +
                     "'" + site.getLongitude() + "'," +
-                    "'" + site.getTimestamp() + "'" +
+                    "'" + site.getTimestamp() + "'," +
+                    "'" + site.getStatus() + "'" +
                     ")");
         }
         DatabaseManager.getInstance().closeDatabase();
