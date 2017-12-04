@@ -11,6 +11,7 @@ import com.myapp.locationapp.R;
 import com.myapp.locationapp.api.AppApi;
 import com.myapp.locationapp.custom.TfButton;
 import com.myapp.locationapp.custom.TfTextView;
+import com.myapp.locationapp.dbhelper.DBOpenHelper;
 import com.myapp.locationapp.helper.Functions;
 import com.myapp.locationapp.helper.GPSTracker;
 import com.myapp.locationapp.helper.MyApplication;
@@ -48,6 +49,8 @@ public class PopupActivity extends AppCompatActivity {
         init();
         actionListener();
 
+        Functions.vibrate(this);
+
         // check if GPS enabled
         GPSTracker gpsTracker = new GPSTracker(this);
 
@@ -77,7 +80,9 @@ public class PopupActivity extends AppCompatActivity {
                         public void onResponse(Call<BaseResponse<Point>> call, Response<BaseResponse<Point>> response) {
                             progressBar.hideProgressDialog();
                             if (response.body() != null && response.body().getStatus() == 1) {
-                                Functions.fireIntent(PopupActivity.this, false);
+                                DBOpenHelper.updateSite(site);
+                                //Functions.fireIntent(PopupActivity.this, false);
+                                finish();
                             } else {
                                 Functions.showToast(PopupActivity.this, getString(R.string.try_again));
                             }
@@ -117,6 +122,7 @@ public class PopupActivity extends AppCompatActivity {
                         progressBar.hideProgressDialog();
                         if (response.body() != null && response.body().getStatus() == 1) {
                             isAccept = true;
+                            DBOpenHelper.updateSite(site);
                             Functions.openInMap(PopupActivity.this, latitude, longitude, Double.parseDouble(site.getLatitude()), Double.parseDouble(site.getLongitude()), site.getSite());
                             finish();
                         } else {

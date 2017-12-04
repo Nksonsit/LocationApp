@@ -15,11 +15,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -46,6 +49,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 public class Functions {
 
     private static final String ProfilePicture = "Elections/Profile";
@@ -57,6 +62,21 @@ public class Functions {
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+
+    public static void vibrate(Context ctx){
+        try {
+            ((Vibrator)ctx.getSystemService(VIBRATOR_SERVICE)).vibrate(100);
+
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(ctx, notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public static void fireIntent(Context context, Class cls, boolean isNewActivity) {
         Intent i = new Intent(context, cls);

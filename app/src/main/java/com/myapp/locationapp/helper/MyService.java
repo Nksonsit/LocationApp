@@ -44,13 +44,13 @@ public class MyService extends Service {
             for (int i = 0; i < list.size(); i++) {
                 double distance = Functions.distance(Double.parseDouble(list.get(i).getLatitude()), Double.parseDouble(list.get(i).getLongitude()), location.getLatitude(), location.getLongitude());
                 Log.e("distance",distance+"");
-                if (Double.parseDouble(list.get(i).getDistance()) >= (distance/1.60934)) {
+
+                if ((list.get(i).getStatus().equalsIgnoreCase("0")) && Double.parseDouble(list.get(i).getDistance()) >= (distance/1.60934)) {
                     Intent intent = new Intent(MyService.this, PopupActivity.class);
                     intent.putExtra("site", list.get(i));
                     startActivity(intent);
                 }
             }
-
         }
 
         @Override

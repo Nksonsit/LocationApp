@@ -15,6 +15,7 @@ public class Site implements Serializable{
     private String UserId;
     private String Description;
     private String Distance;
+    private String Status;
 
     public String getId() {
         return Id;
@@ -78,5 +79,13 @@ public class Site implements Serializable{
 
     public void setDistance(String distance) {
         Distance = distance;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

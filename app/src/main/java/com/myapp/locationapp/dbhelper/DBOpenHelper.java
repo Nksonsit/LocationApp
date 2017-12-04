@@ -96,6 +96,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         return dbFile.exists();
     }
 
+    public static void updateSite(Site site) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+
+        db.execSQL("UPDATE Site SET Status ='1' WHERE id = " + site.getId());
+
+        DatabaseManager.getInstance().closeDatabase();
+    }
+
+
     public static void addSite(Site site) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
 
@@ -150,6 +159,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 site.setLatitude(cursor.getString(5));
                 site.setLongitude(cursor.getString(6));
                 site.setTimestamp(cursor.getString(7));
+                site.setStatus(cursor.getString(8));
                 list.add(site);
             } while (cursor.moveToNext());
         }

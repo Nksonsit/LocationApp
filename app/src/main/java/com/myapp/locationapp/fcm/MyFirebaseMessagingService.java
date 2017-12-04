@@ -99,6 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setTicker("News Site uploaded")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setContentIntent(pendingIntent)
                 .setContentTitle("News Site uploaded")
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
