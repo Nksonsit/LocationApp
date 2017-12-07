@@ -20,7 +20,6 @@ import com.myapp.locationapp.helper.PrefUtils;
 import com.myapp.locationapp.model.Site;
 import com.myapp.locationapp.ui.MainActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,62 +59,66 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(JSONObject msgObject) {
-       Site site = new Site();
         try {
-            site.setId("" + msgObject.get("Id"));
-            site.setUserId("" + msgObject.get("UserId"));
-            site.setSite("" + msgObject.get("Site"));
-            site.setDescription("" + msgObject.get("Description"));
-            site.setDistance("" + msgObject.get("Distance"));
-            site.setLatitude("" + msgObject.get("Latitude"));
-            site.setLongitude("" + msgObject.get("Longitude"));
-            site.setTimestamp("" + msgObject.get("Timestamp"));
-            site.setStatus("0" );
+            Site site = new Site();
+            try {
+                site.setId("" + msgObject.get("Id"));
+                site.setUserId("" + msgObject.get("UserId"));
+                site.setSite("" + msgObject.get("Site"));
+                site.setDescription("" + msgObject.get("Description"));
+                site.setDistance("" + msgObject.get("Distance"));
+                site.setLatitude("" + msgObject.get("Latitude"));
+                site.setLongitude("" + msgObject.get("Longitude"));
+                site.setTimestamp("" + msgObject.get("Timestamp"));
+                site.setStatus("0");
 
-        } catch (JSONException e) {
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("error", e.toString());
+            }
+
+            DBOpenHelper.addSiteFromNotification(site);
+
+            Intent intent = new Intent(this, MainActivity.class);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+            Notification.Builder mBuilder;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mBuilder = new Notification.Builder(this, "1");
+            } else {
+                mBuilder = new Notification.Builder(this);
+            }
+
+            Notification notification;
+            notification = mBuilder
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setTicker("News site uploaded")
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setContentIntent(pendingIntent)
+                    .setContentTitle("News site uploaded")
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                    .build();
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            Random random = new Random();
+            int m = random.nextInt(9999 - 1000) + 1000;
+
+            if (notificationManager != null) {
+                Log.e("fire", "noti");
+                notificationManager.notify(m, notification);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error",e.toString());
+            Log.e("error", e.toString());
         }
-
-        DBOpenHelper.addSite(site);
-
-
-        Intent intent = new Intent(this, MainActivity.class);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        Notification.Builder mBuilder;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mBuilder = new Notification.Builder(this, "1");
-        } else {
-            mBuilder = new Notification.Builder(this);
-        }
-
-        Notification notification;
-        notification = mBuilder
-                .setTicker("News Site uploaded")
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                .setContentIntent(pendingIntent)
-                .setContentTitle("News Site uploaded")
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Random random = new Random();
-        int m = random.nextInt(9999 - 1000) + 1000;
-
-        if (notificationManager != null) {
-            notificationManager.notify(m, notification);
-        }
-
     }
-
 }

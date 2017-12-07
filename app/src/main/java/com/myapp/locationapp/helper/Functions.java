@@ -38,6 +38,7 @@ import com.droidbyme.toastlib.ToastLib;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.myapp.locationapp.R;
+import com.myapp.locationapp.dbhelper.DBOpenHelper;
 import com.myapp.locationapp.model.User;
 import com.myapp.locationapp.ui.LoginActivity;
 
@@ -318,6 +319,7 @@ public class Functions {
     }
 
     public static void logout(Context context) {
+        DBOpenHelper.deleteAllData();
         PrefUtils.setLoggedIn(context, false);
         PrefUtils.setUserFullProfileDetails(context, new User());
         Intent intent = new Intent(context, LoginActivity.class);
