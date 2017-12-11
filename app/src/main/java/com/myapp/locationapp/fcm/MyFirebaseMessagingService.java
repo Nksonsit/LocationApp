@@ -112,13 +112,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Random random = new Random();
             int m = random.nextInt(9999 - 1000) + 1000;
 
-            if (notificationManager != null) {
+        /*    if (notificationManager != null) {
                 Log.e("fire", "noti");
                 notificationManager.notify(m, notification);
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error", e.toString());
+            Log.e("error", e.toString()) ;
         }
     }
 }

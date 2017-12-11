@@ -1,6 +1,7 @@
 package com.myapp.locationapp.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +40,9 @@ public class PopupActivity extends AppCompatActivity {
     private double latitude = 0;
     private double longitude = 0;
     private boolean isAccept = false;
+    private boolean isSoundON = true;
+    private Runnable runMethod;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,18 @@ public class PopupActivity extends AppCompatActivity {
         init();
         actionListener();
 
-        Functions.vibrate(this);
+
+        runMethod = new Runnable() {
+            @Override
+            public void run() {
+                if (isSoundON)
+                    Functions.vibrate(PopupActivity.this);
+                handler.postDelayed(runMethod, 1000);
+            }
+        };
+        handler = new Handler();
+        handler.postDelayed(runMethod, 1000);
+
 
         // check if GPS enabled
         GPSTracker gpsTracker = new GPSTracker(this);
@@ -62,8 +77,16 @@ public class PopupActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void onDestroy() {
+        super.onDestroy();
+        PrefUtils.setLastID(this, "0");
+        handler.removeCallbacks(runMethod);
+    }
 
+    @Override
+    public void onBackPressed() {
+        isSoundON = false;
+        handler.removeCallbacks(runMethod);
         Functions.showMsg(this, "Are you sure want to ignore this ?", new Functions.OnDialogButtonClickListener() {
             @Override
             public void onWhichClick(boolean click) {
@@ -105,12 +128,13 @@ public class PopupActivity extends AppCompatActivity {
         if (isAccept)
             onBackPressed();
     }
-
     private void actionListener() {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressBar.showProgressDialog();
+                isSoundON = false;
+                handler.removeCallbacks(runMethod);
                 AppApi api = MyApplication.getRetrofit().create(AppApi.class);
                 Point point = new Point();
                 point.setPoint("10");

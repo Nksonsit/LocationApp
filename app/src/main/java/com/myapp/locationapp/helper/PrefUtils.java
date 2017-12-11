@@ -10,6 +10,7 @@ import com.myapp.locationapp.model.User;
 public class PrefUtils {
 
     public static String USER_ID = "UserId";
+    public static String LAST_ID = "LastId";
     public static String USER_PROFILE_KEY = "USER_PROFILE_KEY";
     public static String LOGGED_IN = "LOGGED_IN";
     public static String ENABLE_NOTIFICATION = "ENABLE_NOTIFICATION";
@@ -37,6 +38,15 @@ public class PrefUtils {
 
     public static String getUserID(Context ctx) {
         return Prefs.with(ctx).getString(USER_ID,"0");
+    }
+
+
+    public static void setLastID(Context ctx, String value) {
+        Prefs.with(ctx).save(LAST_ID, value);
+    }
+
+    public static String getLastID(Context ctx) {
+        return Prefs.with(ctx).getString(LAST_ID,"0");
     }
 
     public static void setUserFullProfileDetails(Context context, User userProfile) {

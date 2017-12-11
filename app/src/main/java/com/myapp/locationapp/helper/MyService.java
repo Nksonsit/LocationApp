@@ -4,7 +4,6 @@ package com.myapp.locationapp.helper;
  * Created by ishan on 29-11-2017.
  */
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.myapp.locationapp.R;
 import com.myapp.locationapp.dbhelper.DBOpenHelper;
 import com.myapp.locationapp.model.Site;
 import com.myapp.locationapp.ui.PopupActivity;
@@ -24,8 +22,8 @@ import java.util.List;
 public class MyService extends Service {
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 100;
-    private static final float LOCATION_DISTANCE = 0f;
+    private static final int LOCATION_INTERVAL = 1000;
+    private static final float LOCATION_DISTANCE = 10f;
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -43,9 +41,10 @@ public class MyService extends Service {
             List<Site> list = DBOpenHelper.getSites();
             for (int i = 0; i < list.size(); i++) {
                 double distance = Functions.distance(Double.parseDouble(list.get(i).getLatitude()), Double.parseDouble(list.get(i).getLongitude()), location.getLatitude(), location.getLongitude());
-                Log.e("distance",distance+"");
+                Log.e("distance", distance + "");
 
-                if ((list.get(i).getStatus().equalsIgnoreCase("0")) && Double.parseDouble(list.get(i).getDistance()) >= (distance/1.60934)) {
+                if ((list.get(i).getStatus().equalsIgnoreCase("0")) && Double.parseDouble(list.get(i).getDistance()) >= (distance / 1.60934) && !PrefUtils.getLastID(MyService.this).equals(list.get(i).getId())) {
+                    PrefUtils.setLastID(MyService.this, list.get(i).getId());
                     Intent intent = new Intent(MyService.this, PopupActivity.class);
                     intent.putExtra("site", list.get(i));
                     startActivity(intent);
